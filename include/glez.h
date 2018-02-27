@@ -65,6 +65,8 @@ static inline glez_rgba_t glez_rgba(unsigned char r, unsigned char g,
 
 glez_font_t glez_font_load(const char *path, float size);
 
+glez_font_t glez_font_load_from_memory(void *memory_base, size_t memory_size, float size);
+
 void glez_font_unload(glez_font_t handle);
 
 void glez_font_string_size(glez_font_t font, const char *string, float *out_x,

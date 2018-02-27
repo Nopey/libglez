@@ -72,6 +72,41 @@ glez_font_t glez_font_load(const char *path, float size)
     return GLEZ_FONT_INVALID;
 }
 
+glez_font_t glez_font_load_from_memory(void *memory_base, size_t memory_size, float size)
+{
+    assert(path != NULL);
+    assert(size > 0);
+
+    internal_font_t result;
+    memset(&result, 0, sizeof(result));
+
+    result.atlas = texture_atlas_new(1024, 1024, 1);
+    if (result.atlas == NULL)
+        return GLEZ_FONT_INVALID;
+
+    result.font = texture_font_new_from_memory(result.atlas, size, memory_base, memory_size);
+    if (result.font == NULL)
+    {
+        texture_atlas_delete(result.atlas);
+        return GLEZ_FONT_INVALID;
+    }
+
+    result.font->hinting = 0;
+
+    for (glez_font_t i = 0; i < GLEZ_FONT_COUNT; ++i)
+    {
+        if (loaded_fonts[i].init == 0)
+        {
+            result.init = 1;
+            memcpy(&loaded_fonts[i], &result, sizeof(result));
+            return i;
+        }
+    }
+
+    return GLEZ_FONT_INVALID;
+}
+
+
 void glez_font_unload(glez_font_t handle)
 {
     assert(handle < GLEZ_FONT_COUNT);
