@@ -70,7 +70,7 @@ glez_font_t glez_font_load(const char *path, float size)
     return GLEZ_FONT_INVALID;
 }
 
-glez_font_t glez_font_load_from_memory(void *memory_base, size_t memory_size, float size)
+glez_font_t glez_font_load_from_memory(void *memory_base, void * memory_size, float size)
 {
     assert(path != NULL);
     assert(size > 0);
